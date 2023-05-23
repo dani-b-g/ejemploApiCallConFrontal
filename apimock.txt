@@ -1,0 +1,4 @@
+pokeapimock.free.beeceptor.com/createPokemonKO  KO POST
+pokeapimock.free.beeceptor.com/createPokemon  ok POST 
+pokeapimock.free.beeceptor.com/getPokemons  ok general GET 
+pokeapimock.free.beeceptor.com/getById  ok inidvidual GET 
