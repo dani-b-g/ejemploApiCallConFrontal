@@ -70,10 +70,20 @@
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
     crossorigin="anonymous"></script>
 <script type="application/javascript">
+
+    // Añadimos evento al enviar el formulario
     document.getElementById("formPostPokemon").addEventListener("submit", function (event) {
         event.preventDefault(); // Evita que se envíe el formulario de forma predeterminada
         postPokemon();
     });
+
+    //    Añadimos el evento al click en el boton de error
+    document.getElementById("enviarError").addEventListener("click", function (e) {
+        e.preventDefault();
+        sendPokemonKO();
+
+    })
+
     function postPokemon() {
         // Obtén los valores de los campos
         let nombre = document.getElementById("formNombre").value;
@@ -124,9 +134,8 @@
             showAlertKO(error.msg)
         });
     }
-    document.getElementById("enviarError").addEventListener("click", function (e) {
-        e.preventDefault();
-
+    // Funcion que llama al servicio MOCK en KO
+    function sendPokemonKO() {
         let nombre = document.getElementById("formNombre").value;
         let tipo = document.getElementById("formTipo").value;
         let peso = document.getElementById("formPeso").value;
@@ -172,7 +181,8 @@
             console.error('Error:', error);
             showAlertKO(error.msg)
         });
-    })
+    }
+    // Funciones para mostrar los mensajes de alerta.
     function showAlertOK(msg) {
         const alert = document.getElementById('alert')
         alert.innerHTML = msg;
