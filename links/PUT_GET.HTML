@@ -23,7 +23,7 @@
         <div class="row">
             <h2>Formulario</h2>
             <!-- Incapie en form action y method -->
-            <form id="formPostPokemon">
+            <form id="formPutPokemon">
                 <div class="mb-3">
                     <label for="formNombre" class="form-label">Nombre</label>
                     <input type="text" class="form-control" id="formNombre" placeholder="Ingrese su nombre">
@@ -49,6 +49,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
                 <button type="submit" id="btnGetData" class="btn btn-secondary">Obtener Datos (GET)</button>
+                <button type="submit" id="btnPostData" class="btn btn-secondary">Enviar Datos (POST)</button>
             </form>
             <div class="alert m-2 invisible" id="alert" role="alert">
 
@@ -67,9 +68,121 @@
 
 <script type="application/javascript">
 
+    document.getElementById('formPutPokemon').addEventListener('submit', function (event) {
+        event.preventDefault();
+        putPokemon()
+    });
     document.getElementById('btnGetData').addEventListener('click', function (event) {
         getPokemon()
     });
+    document.getElementById('btnPostData').addEventListener('click', function (event) {
+        postPokemon()
+    });
+
+
+    // Post para comprobar que no funciona
+    function postPokemon() {
+        // Obtén los valores de los campos
+        let nombre = document.getElementById("formNombre").value;
+        let tipo = document.getElementById("formTipo").value;
+        let peso = document.getElementById("formPeso").value;
+        let descripcion = document.getElementById("formDescripcion").value;
+
+        // Realiza aquí las operaciones que necesites con los valores del formulario
+
+        // Ejemplo: Imprimir los valores en la consola
+        console.log("Nombre: " + nombre);
+        console.log("Tipo de estilo: " + tipo);
+        console.log("Peso: " + peso);
+        console.log("Descripción: " + descripcion);
+
+        const bodyPost = {
+            nombre: nombre,
+            tipo: tipo,
+            peso: peso,
+            descripcion: descripcion
+        };
+        console.log('bodyPost -> ', bodyPost)
+
+        const urlOK = 'https://pokeapimock.free.beeceptor.com/updatePokemon'; // Reemplaza con la URL de tu API
+
+        const headers = {
+            'Content-Type': 'application/json', // Especifica el tipo de contenido del cuerpo
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate, br'
+        };
+
+        fetch(urlOK, {
+            method: 'POST',
+            headers: headers,
+            // mode: 'no-cors',
+            body: JSON.stringify(bodyPost) // Convierte el objeto a una cadena JSON
+        }).then(response => response.json()).then((json) => {
+            console.log(json)
+            // Mostramos salida por consola y añadimos el mensaje del backend a la alerta
+            if (json.status === "OK") {
+                showAlertOK(json.msg)
+            } else {
+                showAlertKO(json.msg)
+            }
+        }).catch(error => {
+            // Maneja cualquier error de la llamada
+            console.error('Error:', error);
+            showAlertKO(error.msg)
+        });
+    }
+    // Put pokemon
+    function putPokemon() {
+        // Obtén los valores de los campos
+        let nombre = document.getElementById("formNombre").value;
+        let tipo = document.getElementById("formTipo").value;
+        let peso = document.getElementById("formPeso").value;
+        let descripcion = document.getElementById("formDescripcion").value;
+
+        // Realiza aquí las operaciones que necesites con los valores del formulario
+
+        // Ejemplo: Imprimir los valores en la consola
+        console.log("Nombre: " + nombre);
+        console.log("Tipo de estilo: " + tipo);
+        console.log("Peso: " + peso);
+        console.log("Descripción: " + descripcion);
+
+        const bodyPost = {
+            nombre: nombre,
+            tipo: tipo,
+            peso: peso,
+            descripcion: descripcion
+        };
+        console.log('bodyPost -> ', bodyPost)
+
+        const urlOK = 'https://pokeapimock.free.beeceptor.com/updatePokemon'; // Reemplaza con la URL de tu API
+
+        const headers = {
+            'Content-Type': 'application/json', // Especifica el tipo de contenido del cuerpo
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate, br'
+        };
+
+        fetch(urlOK, {
+            method: 'PUT',
+            headers: headers,
+            // mode: 'no-cors',
+            body: JSON.stringify(bodyPost) // Convierte el objeto a una cadena JSON
+        }).then(response => response.json()).then((json) => {
+            console.log(json)
+            // Mostramos salida por consola y añadimos el mensaje del backend a la alerta
+            if (json.status === "OK") {
+                showAlertOK(json.msg)
+            } else {
+                showAlertKO(json.msg)
+            }
+        }).catch(error => {
+            // Maneja cualquier error de la llamada
+            console.error('Error:', error);
+            showAlertKO(error.msg)
+        });
+    }
+
     function getPokemon() {
         // Al ser mock imaginamos que si tenemos un pokemon con una llamada parametrizada y un ok
         const urlOK = 'https://pokeapimock.free.beeceptor.com/getById'; // Reemplaza con la URL de tu API
